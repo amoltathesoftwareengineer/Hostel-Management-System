@@ -4,13 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Hostel Management System</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             font-family: Arial, sans-serif;
@@ -27,13 +24,8 @@
             text-align: center;
         }
 
-        header h1 {
-            margin: 0 0 8px;
-        }
-
-        header p {
-            margin: 0;
-        }
+        header h1 { margin: 0 0 8px; }
+        header p { margin: 0; }
 
         main {
             max-width: 1100px;
@@ -43,15 +35,12 @@
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(200px, 1fr)
-            );
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 16px;
             margin-bottom: 24px;
         }
 
-        .stat {
+        .stat, section {
             background: white;
             padding: 20px;
             border-radius: 10px;
@@ -73,20 +62,11 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(280px, 1fr)
-            );
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
-        section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px #00000010;
-            margin-bottom: 20px;
-        }
+        section { margin-bottom: 20px; }
 
         h2 {
             margin-top: 0;
@@ -101,9 +81,7 @@
             font-size: 14px;
         }
 
-        input,
-        select,
-        button {
+        input, select, button {
             width: 100%;
             padding: 11px;
             margin: 6px 0;
@@ -111,14 +89,12 @@
             font-size: 14px;
         }
 
-        input,
-        select {
+        input, select {
             border: 1px solid #cbd5e1;
             background: white;
         }
 
-        input:focus,
-        select:focus {
+        input:focus, select:focus {
             outline: 2px solid #93c5fd;
             border-color: #1769aa;
         }
@@ -132,9 +108,16 @@
             margin-top: 12px;
         }
 
-        button:hover {
-            background: #124f82;
+        button:hover { background: #124f82; }
+
+        .cancel-button {
+            width: auto;
+            min-width: 85px;
+            background: #dc2626;
+            margin: 0;
         }
+
+        .cancel-button:hover { background: #991b1b; }
 
         .messages {
             background: #e0f2fe;
@@ -144,9 +127,7 @@
             margin-bottom: 20px;
         }
 
-        .messages p {
-            margin: 4px 0;
-        }
+        .messages p { margin: 4px 0; }
 
         .table-wrapper {
             width: 100%;
@@ -159,8 +140,7 @@
             margin-top: 12px;
         }
 
-        th,
-        td {
+        th, td {
             padding: 12px 10px;
             border-bottom: 1px solid #e5e7eb;
             text-align: left;
@@ -172,9 +152,7 @@
             color: #173b68;
         }
 
-        tbody tr:hover {
-            background: #f8fafc;
-        }
+        tbody tr:hover { background: #f8fafc; }
 
         .empty {
             color: #64748b;
@@ -189,22 +167,10 @@
         }
 
         @media (max-width: 600px) {
-            header {
-                padding: 20px 12px;
-            }
-
-            header h1 {
-                font-size: 24px;
-            }
-
-            main {
-                margin: 16px auto;
-                padding: 0 12px;
-            }
-
-            section {
-                padding: 16px;
-            }
+            header { padding: 20px 12px; }
+            header h1 { font-size: 24px; }
+            main { margin: 16px auto; padding: 0 12px; }
+            section { padding: 16px; }
         }
     </style>
 </head>
@@ -231,7 +197,6 @@
 
     <!-- Dashboard Statistics -->
     <div class="stats">
-
         <div class="stat">
             <h3>Registered Students</h3>
             <p>{{ students|length }}</p>
@@ -246,7 +211,6 @@
             <h3>Room Allocations</h3>
             <p>{{ allocations }}</p>
         </div>
-
     </div>
 
     <!-- Student Registration and Room Creation -->
@@ -256,39 +220,19 @@
             <h2>Register Student</h2>
 
             <form action="{{ url_for('add_student') }}" method="POST">
-
                 <label for="name">Student Name</label>
-                <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    maxlength="100"
-                    placeholder="Enter student name"
-                    required
-                >
+                <input id="name" name="name" type="text"
+                       maxlength="100" placeholder="Enter student name" required>
 
                 <label for="email">Email Address</label>
-                <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    maxlength="120"
-                    placeholder="Enter email address"
-                    required
-                >
+                <input id="email" name="email" type="email"
+                       maxlength="120" placeholder="Enter email address" required>
 
                 <label for="phone">Phone Number</label>
-                <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    maxlength="20"
-                    placeholder="Enter phone number"
-                    required
-                >
+                <input id="phone" name="phone" type="tel"
+                       maxlength="20" placeholder="Enter phone number" required>
 
                 <button type="submit">Register Student</button>
-
             </form>
         </section>
 
@@ -296,30 +240,15 @@
             <h2>Add Hostel Room</h2>
 
             <form action="{{ url_for('add_room') }}" method="POST">
-
                 <label for="room_number">Room Number</label>
-                <input
-                    id="room_number"
-                    name="room_number"
-                    type="text"
-                    maxlength="20"
-                    placeholder="Example: A101"
-                    required
-                >
+                <input id="room_number" name="room_number" type="text"
+                       maxlength="20" placeholder="Example: A101" required>
 
                 <label for="capacity">Room Capacity</label>
-                <input
-                    id="capacity"
-                    name="capacity"
-                    type="number"
-                    min="1"
-                    step="1"
-                    placeholder="Enter number of beds"
-                    required
-                >
+                <input id="capacity" name="capacity" type="number"
+                       min="1" step="1" placeholder="Enter number of beds" required>
 
                 <button type="submit">Add Room</button>
-
             </form>
         </section>
 
@@ -330,11 +259,9 @@
         <h2>Allocate Room to Student</h2>
 
         <form action="{{ url_for('allocate_room') }}" method="POST">
-
             <label for="student_id">Select Student</label>
             <select id="student_id" name="student_id" required>
                 <option value="">Choose a student</option>
-
                 {% for student in students %}
                     <option value="{{ student.id }}">
                         {{ student.name }} ({{ student.email }})
@@ -345,7 +272,6 @@
             <label for="room_id">Select Available Room</label>
             <select id="room_id" name="room_id" required>
                 <option value="">Choose a room</option>
-
                 {% for room in rooms %}
                     {% if room.occupied < room.capacity %}
                         <option value="{{ room.id }}">
@@ -357,7 +283,6 @@
             </select>
 
             <button type="submit">Allocate Room</button>
-
         </form>
     </section>
 
@@ -421,6 +346,51 @@
                         <tr>
                             <td colspan="4" class="empty">
                                 No rooms added yet.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Allocated Rooms Table -->
+    <section>
+        <h2>Allocated Rooms</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Room Number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for allocation in allocation_list %}
+                        <tr>
+                            <td>{{ allocation.student.name }}</td>
+                            <td>{{ allocation.student.email }}</td>
+                            <td>{{ allocation.room.room_number }}</td>
+                            <td>
+                                <form
+                                    action="{{ url_for('cancel_allocation', allocation_id=allocation.id) }}"
+                                    method="POST"
+                                    onsubmit="return confirm('Are you sure you want to cancel this allocation?');"
+                                >
+                                    <button type="submit" class="cancel-button">
+                                        Cancel
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="empty">
+                                No room allocations yet.
                             </td>
                         </tr>
                     {% endfor %}
