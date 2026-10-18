@@ -1,115 +1,141 @@
 # Hostel Management System
 
-A database-driven application for managing hostel operations, student accommodation, room assignments, and hostel administration.
+A database-driven web application built with Python and Flask to manage student registrations, hostel rooms, and room allocations.
 
-## Overview
+## Features
 
-The Hostel Management System centralizes hostel records and helps administrators manage student details, room availability, allocation, fee records, and maintenance requests.
-
-## Key Features
-
-- Student registration and profile management
-- Hostel and room management
-- Room availability tracking
-- Room allocation and transfer records
-- Fee payment status tracking
-- Attendance records
-- Maintenance request management
-- Administrative reports
-- Role-based access control
+- **Student Registration** — Register students with their name, email, and phone number.
+- **Room Management** — Add hostel rooms and define their capacity.
+- **Room Allocation** — Assign available rooms to registered students.
+- **Capacity Validation** — Prevent room allocation when a room is full.
+- **Duplicate Prevention** — Prevent duplicate student emails and room numbers.
+- **Dashboard Statistics** — View student counts, total rooms, and room allocations.
+- **Health Check API** — Check application status through `/health`.
+- **Automated Testing** — Run tests with pytest and GitHub Actions.
 
 ## Technology Stack
 
-- Python
-- Flask
-- MySQL 8.0
-- HTML5 and CSS3
-- Bootstrap
-- Jinja2
-
-## Database Design
-
-Proposed tables:
-
-- `students`
-- `hostels`
-- `rooms`
-- `room_allocations`
-- `fee_records`
-- `attendance`
-- `maintenance_requests`
-- `users`
-
-Use foreign keys and validation rules to prevent invalid allocations and inconsistent records.
+- **Backend:** Python, Flask
+- **Database:** SQLite
+- **ORM:** Flask-SQLAlchemy
+- **Frontend:** HTML5, CSS3, Jinja2
+- **Testing:** pytest
+- **CI:** GitHub Actions
 
 ## Project Structure
 
 ```text
 Hostel-Management-System/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
+├── templates/
+│   └── index.html
+├── tests/
+│   └── test_app.py
 ├── app.py
 ├── config.py
 ├── database.sql
 ├── requirements.txt
-├── README.md
-├── templates/
-├── static/
-└── tests/
+├── .gitignore
+└── README.md
 ```
 
-## Installation
+## Prerequisites
+
+- Python 3.10 or later
+- pip
+
+## Installation and Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/amoltathesoftwareengineer/Hostel-Management-System.git
+   ```
+
+2. Open the project directory:
+
+   ```bash
+   cd Hostel-Management-System
+   ```
+
+3. Create a virtual environment:
+
+   ```bash
+   python -m venv venv
+   ```
+
+4. Activate the virtual environment on Windows:
+
+   ```bash
+   venv\Scripts\activate
+   ```
+
+   On macOS or Linux:
+
+   ```bash
+   source venv/bin/activate
+   ```
+
+5. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+6. Start the application:
+
+   ```bash
+   python app.py
+   ```
+
+7. Open the local application in your browser:
+
+   `http://127.0.0.1:5000`
+
+## Running Tests
+
+Run the following command from the project directory:
 
 ```bash
-git clone https://github.com/amoltathesoftwareengineer/Hostel-Management-System.git
-cd Hostel-Management-System
-python -m venv .venv
+python -m pytest -v
 ```
 
-Activate on Windows:
+## Health Check
 
-```bash
-.venv\Scripts\activate
+Visit the following endpoint while the application is running:
+
+`http://127.0.0.1:5000/health`
+
+A successful response returns:
+
+```json
+{
+  "status": "healthy"
+}
 ```
 
-Install dependencies:
+## Database
 
-```bash
-pip install -r requirements.txt
-```
+The application uses SQLite through Flask-SQLAlchemy. Database tables are created automatically when the application starts.
 
-Configure MySQL, execute `database.sql`, and set the required environment variables.
-
-## Run the Application
-
-```bash
-python app.py
-```
-
-Open the local development URL displayed in the terminal.
-
-## Database and Security
-
-- Enforce room capacity limits.
-- Prevent overlapping active allocations.
-- Use parameterized SQL queries.
-- Hash user passwords securely.
-- Restrict administrative operations.
-- Protect students' personal information.
+The `database.sql` file contains a standalone SQLite schema for reference.
 
 ## Future Enhancements
 
-- Online fee payment integration
-- Room availability dashboard
-- Visitor management
-- Maintenance notifications
-- Occupancy analytics
-- Downloadable reports
+- Student room transfer and room vacancy management
+- Fee tracking and payment records
+- Maintenance request management
+- Role-based authentication and authorization
+- Occupancy analytics and downloadable reports
 
 ## Author
 
-Amol Tathe
+**Amol Tathe**
 
-GitHub: https://github.com/amoltathesoftwareengineer
+- GitHub: [@amoltathesoftwareengineer](https://github.com/amoltathesoftwareengineer)
 
-## License
+---
 
-Add an appropriate open-source license before permitting reuse.
+*This project is intended for learning and demonstration. Authentication, authorization, production security configuration, and additional operational features are needed before production deployment.*
