@@ -197,6 +197,37 @@ def allocate_room():
     return redirect(url_for("home"))
 
 
+# Cancel Room Allocation
+@app.route(
+    "/allocations/<int:allocation_id>/cancel",
+    methods=["POST"],
+)
+def cancel_allocation(allocation_id):
+    try:
+        allocation = db.session.get(Allocation, allocation_id)
+
+        if allocation is None:
+            flash("Room allocation not found.")
+            return redirect(url_for("home"))
+
+        room = allocation.room
+
+        if room.occupied > 0:
+            room.occupied -= 1
+
+        db.session.delete(allocation)
+        db.session.commit()
+
+        flash("Room allocation cancelled successfully.")
+
+    except SQLAlchemyError:
+        db.session.rollback()
+        app.logger.exception("Room allocation cancellation failed.")
+        flash("Unable to cancel room allocation.")
+
+    return redirect(url_for("home"))
+
+
 # Health Check
 @app.route("/health")
 def health():
