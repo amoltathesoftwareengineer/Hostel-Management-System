@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #1f2937;
+            margin: 0;
+        }
+        header {
+            background: #173b68;
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+        main {
+            max-width: 1000px;
+            margin: 24px auto;
+            padding: 0 16px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        section, .stat {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #00000010;
+        }
+        input, button {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+        }
+        button {
+            background: #1769aa;
+            color: white;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+        .messages {
+            background: #e0f2fe;
+            padding: 12px;
+            border-radius: 6px;
+        }
+        .stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .stat { flex: 1; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Hostel Management System</h1>
+    <p>Manage students, rooms and hostel records</p>
+</header>
+
+<main>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="stats">
+        <div class="stat">
+            <h3>Registered Students</h3>
+            <p>{{ students|length }}</p>
+        </div>
+        <div class="stat">
+            <h3>Total Rooms</h3>
+            <p>{{ rooms|length }}</p>
+        </div>
+        <div class="stat">
+            <h3>Room Allocations</h3>
+            <p>{{ allocations }}</p>
+        </div>
+    </div>
+
+    <div class="grid">
+        <section>
+            <h2>Register Student</h2>
+            <form action="{{ url_for('add_student') }}" method="POST">
+                <input name="name" placeholder="Student name" required>
+                <input name="email" type="email" placeholder="Email address" required>
+                <input name="phone" placeholder="Phone number" required>
+                <button type="submit">Register Student</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Add Hostel Room</h2>
+            <form action="{{ url_for('add_room') }}" method="POST">
+                <input name="room_number" placeholder="Room number" required>
+                <input name="capacity" type="number" min="1" placeholder="Room capacity" required>
+                <button type="submit">Add Room</button>
+            </form>
+        </section>
+    </div>
+
+    <section style="margin-top:20px">
+        <h2>Registered Students</h2>
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Email</th><th>Phone</th></tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.email }}</td>
+                    <td>{{ student.phone }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="3">No students registered yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section style="margin-top:20px">
+        <h2>Hostel Rooms</h2>
+        <table>
+            <thead>
+                <tr><th>Room</th><th>Capacity</th><th>Occupied</th><th>Available</th></tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>{{ room.room_number }}</td>
+                    <td>{{ room.capacity }}</td>
+                    <td>{{ room.occupied }}</td>
+                    <td>{{ room.capacity - room.occupied }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4">No rooms added yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>
