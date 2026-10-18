@@ -4,83 +4,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Hostel Management System</title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: #f3f6fb;
             color: #1f2937;
             margin: 0;
+            line-height: 1.5;
         }
+
         header {
             background: #173b68;
             color: white;
-            padding: 24px;
+            padding: 24px 16px;
             text-align: center;
         }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        header p {
+            margin: 0;
+        }
+
         main {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 24px auto;
             padding: 0 16px;
         }
-        .grid {
+
+        .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(200px, 1fr)
+            );
+            gap: 16px;
+            margin-bottom: 24px;
         }
-        section, .stat {
+
+        .stat {
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 2px 8px #00000010;
         }
-        input, button {
-            box-sizing: border-box;
-            width: 100%;
-            padding: 10px;
-            margin: 6px 0;
+
+        .stat h3 {
+            margin-top: 0;
+            font-size: 15px;
+            color: #526174;
         }
+
+        .stat p {
+            margin-bottom: 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #1769aa;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(280px, 1fr)
+            );
+            gap: 20px;
+        }
+
+        section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #00000010;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #173b68;
+            font-size: 21px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 11px;
+            margin: 6px 0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            border: 1px solid #cbd5e1;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: 2px solid #93c5fd;
+            border-color: #1769aa;
+        }
+
         button {
             background: #1769aa;
             color: white;
-            border: 0;
-            border-radius: 5px;
+            border: none;
             cursor: pointer;
+            font-weight: bold;
+            margin-top: 12px;
         }
+
+        button:hover {
+            background: #124f82;
+        }
+
+        .messages {
+            background: #e0f2fe;
+            color: #075985;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .messages p {
+            margin: 4px 0;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 12px;
         }
-        th, td {
-            padding: 10px;
+
+        th,
+        td {
+            padding: 12px 10px;
             border-bottom: 1px solid #e5e7eb;
             text-align: left;
+            white-space: nowrap;
         }
-        .messages {
-            background: #e0f2fe;
-            padding: 12px;
-            border-radius: 6px;
+
+        th {
+            background: #f8fafc;
+            color: #173b68;
         }
-        .stats {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+
+        tbody tr:hover {
+            background: #f8fafc;
         }
-        .stat { flex: 1; }
+
+        .empty {
+            color: #64748b;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 20px 12px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            main {
+                margin: 16px auto;
+                padding: 0 12px;
+            }
+
+            section {
+                padding: 16px;
+            }
+        }
     </style>
 </head>
+
 <body>
+
 <header>
     <h1>Hostel Management System</h1>
     <p>Manage students, rooms and hostel records</p>
 </header>
 
 <main>
+
+    <!-- Flash Messages -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <div class="messages">
+            <div class="messages" role="status">
                 {% for message in messages %}
                     <p>{{ message }}</p>
                 {% endfor %}
@@ -88,82 +229,211 @@
         {% endif %}
     {% endwith %}
 
+    <!-- Dashboard Statistics -->
     <div class="stats">
+
         <div class="stat">
             <h3>Registered Students</h3>
             <p>{{ students|length }}</p>
         </div>
+
         <div class="stat">
             <h3>Total Rooms</h3>
             <p>{{ rooms|length }}</p>
         </div>
+
         <div class="stat">
             <h3>Room Allocations</h3>
             <p>{{ allocations }}</p>
         </div>
+
     </div>
 
+    <!-- Student Registration and Room Creation -->
     <div class="grid">
+
         <section>
             <h2>Register Student</h2>
+
             <form action="{{ url_for('add_student') }}" method="POST">
-                <input name="name" placeholder="Student name" required>
-                <input name="email" type="email" placeholder="Email address" required>
-                <input name="phone" placeholder="Phone number" required>
+
+                <label for="name">Student Name</label>
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    maxlength="100"
+                    placeholder="Enter student name"
+                    required
+                >
+
+                <label for="email">Email Address</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    maxlength="120"
+                    placeholder="Enter email address"
+                    required
+                >
+
+                <label for="phone">Phone Number</label>
+                <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    maxlength="20"
+                    placeholder="Enter phone number"
+                    required
+                >
+
                 <button type="submit">Register Student</button>
+
             </form>
         </section>
 
         <section>
             <h2>Add Hostel Room</h2>
+
             <form action="{{ url_for('add_room') }}" method="POST">
-                <input name="room_number" placeholder="Room number" required>
-                <input name="capacity" type="number" min="1" placeholder="Room capacity" required>
+
+                <label for="room_number">Room Number</label>
+                <input
+                    id="room_number"
+                    name="room_number"
+                    type="text"
+                    maxlength="20"
+                    placeholder="Example: A101"
+                    required
+                >
+
+                <label for="capacity">Room Capacity</label>
+                <input
+                    id="capacity"
+                    name="capacity"
+                    type="number"
+                    min="1"
+                    step="1"
+                    placeholder="Enter number of beds"
+                    required
+                >
+
                 <button type="submit">Add Room</button>
+
             </form>
         </section>
+
     </div>
 
-    <section style="margin-top:20px">
-        <h2>Registered Students</h2>
-        <table>
-            <thead>
-                <tr><th>Name</th><th>Email</th><th>Phone</th></tr>
-            </thead>
-            <tbody>
+    <!-- Room Allocation -->
+    <section>
+        <h2>Allocate Room to Student</h2>
+
+        <form action="{{ url_for('allocate_room') }}" method="POST">
+
+            <label for="student_id">Select Student</label>
+            <select id="student_id" name="student_id" required>
+                <option value="">Choose a student</option>
+
                 {% for student in students %}
-                <tr>
-                    <td>{{ student.name }}</td>
-                    <td>{{ student.email }}</td>
-                    <td>{{ student.phone }}</td>
-                </tr>
-                {% else %}
-                <tr><td colspan="3">No students registered yet.</td></tr>
+                    <option value="{{ student.id }}">
+                        {{ student.name }} ({{ student.email }})
+                    </option>
                 {% endfor %}
-            </tbody>
-        </table>
+            </select>
+
+            <label for="room_id">Select Available Room</label>
+            <select id="room_id" name="room_id" required>
+                <option value="">Choose a room</option>
+
+                {% for room in rooms %}
+                    {% if room.occupied < room.capacity %}
+                        <option value="{{ room.id }}">
+                            {{ room.room_number }} —
+                            {{ room.capacity - room.occupied }} beds available
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+            <button type="submit">Allocate Room</button>
+
+        </form>
     </section>
 
-    <section style="margin-top:20px">
-        <h2>Hostel Rooms</h2>
-        <table>
-            <thead>
-                <tr><th>Room</th><th>Capacity</th><th>Occupied</th><th>Available</th></tr>
-            </thead>
-            <tbody>
-                {% for room in rooms %}
-                <tr>
-                    <td>{{ room.room_number }}</td>
-                    <td>{{ room.capacity }}</td>
-                    <td>{{ room.occupied }}</td>
-                    <td>{{ room.capacity - room.occupied }}</td>
-                </tr>
-                {% else %}
-                <tr><td colspan="4">No rooms added yet.</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <!-- Registered Students Table -->
+    <section>
+        <h2>Registered Students</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.email }}</td>
+                            <td>{{ student.phone }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="empty">
+                                No students registered yet.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </section>
+
+    <!-- Hostel Rooms Table -->
+    <section>
+        <h2>Hostel Rooms</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Capacity</th>
+                        <th>Occupied</th>
+                        <th>Available Beds</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for room in rooms %}
+                        <tr>
+                            <td>{{ room.room_number }}</td>
+                            <td>{{ room.capacity }}</td>
+                            <td>{{ room.occupied }}</td>
+                            <td>{{ room.capacity - room.occupied }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="empty">
+                                No rooms added yet.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
 </main>
+
+<footer>
+    <p>Hostel Management System | Developed by Amol Tathe</p>
+</footer>
+
 </body>
 </html>
