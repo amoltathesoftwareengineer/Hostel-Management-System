@@ -66,11 +66,20 @@ def home():
     rooms = Room.query.order_by(Room.room_number).all()
     allocations = Allocation.query.count()
 
+    allocation_list = (
+        Allocation.query
+        .join(Student)
+        .join(Room)
+        .order_by(Allocation.id.desc())
+        .all()
+    )
+
     return render_template(
         "index.html",
         students=students,
         rooms=rooms,
         allocations=allocations,
+        allocation_list=allocation_list,
     )
 
 
@@ -90,11 +99,7 @@ def add_student():
             flash("This email is already registered.")
             return redirect(url_for("home"))
 
-        student = Student(
-            name=name,
-            email=email,
-            phone=phone,
-        )
+        student = Student(name=name, email=email, phone=phone)
         db.session.add(student)
         db.session.commit()
         flash("Student registered successfully.")
